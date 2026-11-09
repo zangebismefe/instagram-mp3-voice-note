@@ -10,4 +10,4 @@ The goal is to import an MP3 and send it as a **native Instagram Direct voice me
 - [Morphe integration plan](docs/morphe-integration.md)
 - [Offline APKM inspection script](scripts/inspect_apkm.py)
 
-The official [Morphe patch template](https://github.com/MorpheApp/morphe-patches-template) and its build/release process have been examined; importing the complete template and implementing a verified patch remain outstanding.
+The official [Morphe patch template](https://github.com/MorpheApp/morphe-patches-template) build and release configuration has been partially imported and configured. The Gradle wrapper JAR, remaining build dependencies, an actual Instagram hook, a verified `.mpp` build, and a release are still missing. Do not use this as a Morphe patch source yet.
