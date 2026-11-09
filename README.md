@@ -1,17 +1,20 @@
 # Instagram MP3 Voice Note — Morphe patch research
 
-Goal: allow choosing an MP3 file in Instagram Direct and sending it as a native voice note.
+**Target application:** Instagram Android `452.1.0.53.64` (user-reported).
+**Goal:** select a local MP3 in Instagram Direct and send it as a **native voice message**, not a document attachment.
 
-## Status
+## Current status
 
-Research/prototype stage. **No functioning patch or `.mpp` artifact is available yet.** A native voice note requires integration with Instagram's version-specific voice upload/send flow, not just attaching an MP3.
+Research stage; **no working patch or `.mpp` build yet**. Merely adding a file picker does not implement a native Instagram voice note. The target APK's actual voice recording, upload, and message dispatch paths must be identified and tested.
 
-## Next steps
+## Development plan
 
-1. Inspect the current Morphe patch template and patch API.
-2. Identify the exact Instagram APK version for testing.
-3. Investigate the voice recorder/upload/send code path in that version.
-4. Implement a file picker, compatible audio conversion, and voice-message dispatch hook.
-5. Build and test a patch against the specified Instagram version.
+1. Base the project on the official [Morphe patches template](https://github.com/MorpheApp/morphe-patches-template), retaining its existing build and release workflows.
+2. Obtain a legally sourced APK for exactly `452.1.0.53.64` for local analysis and testing. Do not commit the APK or private user data.
+3. Trace the app's voice-message encoding, upload, and Direct send path; determine whether an imported audio stream can use it.
+4. Add an MP3 picker and format conversion only after the real send hook is verified.
+5. Build a `.mpp` bundle, patch a test installation, and verify that the recipient sees a playable native voice note.
 
-Avoid publishing account credentials, access tokens, or private Instagram messages.
+## Important
+
+The GitHub repository is currently documentation-only. Do **not** add this repository as a working patch source until it contains a verified Morphe patch bundle and release.
