@@ -1,20 +1,17 @@
-group = "app.template"
+group = "dev.zangebismefe.instagramvoice"
 
 patches {
-    // TODO: Update this section with your project details.
     about {
-        name = "UserXYZ Patches"
-        description = "Patches for apps I like"
-        source = "git@github.com:UserXYZ/morphe-patches.git"
-        author = "Awesome dev"
-        contact = "na"
-        website = "na"
+        name = "Instagram MP3 Voice Note"
+        description = "Experimental Instagram Direct native voice note patch research"
+        source = "https://github.com/zangebismefe/instagram-mp3-voice-note"
+        author = "zangebismefe"
+        contact = "https://github.com/zangebismefe/instagram-mp3-voice-note/issues"
+        website = "https://github.com/zangebismefe/instagram-mp3-voice-note"
         license = "GPLv3"
     }
 }
 
-// Separate configuration so gson is available at runtime for the
-// generatePatchesList task but never bundled into the APK.
 val patchListGeneratorClasspath = configurations.create("patchListGeneratorClasspath")
 
 dependencies {
@@ -25,14 +22,10 @@ dependencies {
 tasks {
     register<JavaExec>("generatePatchesList") {
         description = "Build patch with patch list"
-
         dependsOn(build)
-
         classpath = sourceSets["main"].runtimeClasspath + patchListGeneratorClasspath
         mainClass.set("util.PatchListGeneratorKt")
     }
-
-    // Used by gradle-semantic-release-plugin.
     publish {
         dependsOn("generatePatchesList")
     }
