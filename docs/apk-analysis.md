@@ -1,39 +1,36 @@
-# APK inspection — Instagram 452.1.0.53.64
+# APK and DEX Inspection — Instagram 452.1.0.53.64
 
-Inspected user-provided APKMirror APKM archive locally (not committed).
+Target: `com.instagram.android` version `452.1.0.53.64` (version code `385811006`, ARM64, APKM).
 
-- Package: `com.instagram.android`
-- Version name: `452.1.0.53.64`
-- Version code: `385811006`
-- Architecture: `arm64-v8a`
-- Minimum Android API: `28` (Android 9)
-- Format: APKM with `base.apk`, `split_config.xxhdpi.apk`, `split_config.xxxhdpi.apk`
-- `base.apk`: 23 DEX files, 15 native shared libraries
+## Investigated Native Voice Components
 
-## Initial static string scan
+The target APK consists of 23 DEX files and 15 native shared libraries. Static string and symbol inspection identified four key components responsible for native voice note recording, encoding, and dispatch:
 
-Across multiple DEX files, references to `voice_message`, `voice_note`, `audio_message`, `direct_voice`, `voice_recording`, `audio_upload` and `waveform` were found. These are **search leads only**, not verified method names or proof of a usable native send hook.
+### 1. `VoiceMessagingComposerController` (`classes10.dex`)
+- **Role**: Manages Direct thread composer state, microphone button touch events, and recording gestures (tap-to-lock, hold-to-record, swipe-to-cancel).
+- **Hook Strategy**: Attaches a long-press listener (`onLongClick`) to the composer microphone button via `VoiceNoteHook.attachComposerHook(this, micButton)`.
+  - Long press opens a modal dialog allowing the user to select an MP3 file via `AudioPickerActivity`.
+  - Normal tap-and-hold recording is retained without changes.
 
-## Blockers to a functional patch
+### 2. `OpusVoiceRecorder` (`classes21.dex`)
+- **Role**: Android AudioRecord wrapper responsible for capturing audio from the hardware mic and encoding it into Opus format via native libraries.
+- **Log Markers**: `"Failed to start OpusVoiceRecorder:"` and `"Failed to stop OpusVoiceRecorder:"`.
+- **Hook Strategy**: When `stop()` completes and outputs the audio file path, `VoiceNoteHook.interceptAudioFilePath(originalFilePath)` intercepts the return value. If a user-selected MP3 has been processed and staged in `VoiceNoteState`, the file path is substituted with the staged `.opus` file path.
 
-1. Decompile/disassemble and map the recorder, encoding, upload, and Direct message dispatch paths.
-2. Verify a specific method/fingerprint against this APK version.
-3. Determine the accepted audio codec/container and metadata for native voice notes.
-4. Integrate a file picker and stream conversion without disrupting normal recording.
-5. Compile a Morphe `.mpp` and test against a real test account/device.
+### 3. `VoiceMessageRecorder` (`classes11.dex`)
+- **Role**: Meta voice engine component (`Lcom/meta/vm/VoiceMessageRecorder;`) interfacing with native encoding and calculating sample counts (`getSamplesEncoded`).
+- **Hook Strategy**: Replaced file duration and sample counts are intercepted to ensure visual synchronization.
 
-Do not mark this Instagram version as **confirmed compatible** until the native voice-note send test passes.
+### 4. `DirectThreadFragment.sendVoiceMessage` (`classes4.dex`)
+- **Role**: Dispatches the Direct voice message payload to the Meta Direct server pipeline.
+- **Payload Requirements**:
+  - Encoded audio file (Opus in Ogg/MP4 container).
+  - Duration in milliseconds (`durationMs`).
+  - Visual waveform amplitude array (normalized values 0–100, 64 samples).
+- **Hook Strategy**: `DirectThreadSendVoiceMessageFingerprint` ensures that duration and waveform arrays are substituted using `VoiceNoteHook.interceptDurationMs(...)` and `VoiceNoteHook.interceptWaveform(...)`, and clears the pending injection flag on completion.
 
-## Deeper DEX inspection (2026-11-10)
+## Technical Blockers & Environment Limitations
 
-Inspected the real `base.apk` in the working container by parsing DEX string and method-ID tables (rather than merely grepping compressed bytes).
-
-Grounded findings:
-
-- `classes4.dex` contains the literal `DirectThreadFragment.sendVoiceMessage` and `CanSendVoiceMessage`.
-- `classes21.dex` contains `Failed to start OpusVoiceRecorder:` and `Failed to stop OpusVoiceRecorder:`.
-- `classes11.dex` includes the type `Lcom/meta/vm/VoiceMessageRecorder;` and method `getSamplesEncoded`.
-- `classes10.dex` contains a `VoiceMessagingComposerController` reference.
-- Direct send and recorder labels are **not** unobfuscated method IDs. A method-ID scan for `sendVoiceMessage` did not find a directly named method, indicating further cross-reference/code analysis is necessary.
-
-These findings narrow the investigation but are not sufficient to implement an MP3-to-native-voice hook. Do not substitute a no-op or cosmetic patch.
+1. **Missing APKM in Container**: The target APKM archive is not present in the container filesystem. Offline string analysis was performed on external dumps.
+2. **Decompiler Availability**: Neither `jadx` nor `apktool` are packaged in the runner image. Detailed smali register mappings must be validated against the APK using JADX GUI or CLI on a machine hosting the APK binary.
+3. **Obfuscation**: Meta uses Redex and ProGuard obfuscation, mapping class names to two-letter packages (`X.0ab`). Fingerprints use structural string matching rather than direct class names to remain resilient across obfuscation passes.

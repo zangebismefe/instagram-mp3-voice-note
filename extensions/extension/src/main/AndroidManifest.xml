@@ -1,1 +1,10 @@
-<manifest/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dev.zangebismefe.instagramvoice">
+
+    <application>
+        <activity
+            android:name="dev.zangebismefe.instagramvoice.AudioPickerActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false" />
+    </application>
+</manifest>

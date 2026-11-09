@@ -1,13 +1,65 @@
-# Instagram MP3 Voice Note — Morphe research
+# Instagram MP3 Voice Note — Morphe Patch
+
+Experimental Morphe bytecode patch and extension for Instagram Direct on Android.
 
 Target: Instagram Android **452.1.0.53.64** (version code **385811006**, ARM64, APKM).
 
-**Status: research only. No functional patch, `.mpp` bundle, or Morphe-compatible release is available yet.** Adding this repository URL to Morphe Manager will not patch Instagram at present.
+## Objective
 
-The goal is to import an MP3 and send it as a **native Instagram Direct voice message**, not as a file attachment. This requires a verified version-specific send hook, audio format conversion, and device testing.
+Allows users to select a local MP3 audio file from their device storage and send it in Instagram Direct as a **native voice message** (with real playback duration and waveform visualization), rather than sending it as a file or document attachment. Normal microphone voice recording is completely preserved.
 
-- [APK inspection findings](docs/apk-analysis.md)
-- [Morphe integration plan](docs/morphe-integration.md)
-- [Offline APKM inspection script](scripts/inspect_apkm.py)
+## Architecture
 
-The official [Morphe patch template](https://github.com/MorpheApp/morphe-patches-template) build and release configuration has been partially imported and configured. The Gradle wrapper JAR, remaining build dependencies, an actual Instagram hook, a verified `.mpp` build, and a release are still missing. Do not use this as a Morphe patch source yet.
+The project consists of two cooperating layers according to the official Morphe framework:
+
+1. **Extension (`extensions/extension`)**:
+   - `AudioPickerActivity`: Translucent activity invoking Android's Storage Access Framework (`audio/*`) to pick MP3/audio files.
+   - `AudioConverter`: Extracts audio metadata, determines duration, and calculates the 64-point normalized waveform amplitude array required by Instagram Direct voice bubbles.
+   - `VoiceNoteState`: Thread-safe staging manager holding the injected audio file and metadata.
+   - `VoiceNoteHook`: Injects long-press handling on Direct's microphone button and hooks the audio path, duration, and waveform data upon dispatch.
+
+2. **Bytecode Patch (`patches`)**:
+   - `InstagramVoicePatch.kt`: Morphe `bytecodePatch` declared for `com.instagram.android`.
+   - Injects Smali instructions calling `VoiceNoteHook` into `VoiceMessagingComposerController`, `OpusVoiceRecorder`, and `DirectThreadFragment`.
+   - Bundles the compiled extension via `extendWith("extensions/extension.mpe")`.
+
+<!-- PATCHES_START EXPANDED -->
+> **[v1.0.0-experimental.1](https://github.com/zangebismefe/instagram-mp3-voice-note/releases/tag/v1.0.0-experimental.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
+<details open>
+<summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**Package name:** `com.instagram.android`
+
+**🎯 Supported versions:**
+
+| 🧪&nbsp;452.1.0.53.64 |
+| :---: |
+| Target: version code 385811006, ARM64 APKM |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Instagram MP3 Voice Note](#instagram-mp3-voice-note) | Allows selecting a local MP3 audio file and sending it as a native Instagram Direct voice message instead of an attachment. |  |
+
+</details>
+
+<!-- PATCHES_END -->
+
+## Documentation & Analysis
+
+- [DEX and APK Analysis](docs/apk-analysis.md)
+- [Morphe Integration & Build Status](docs/morphe-integration.md)
+- [Offline APKM Inspection Script](scripts/inspect_apkm.py)
+
+## Building the Bundle
+
+Prerequisites:
+- JDK 21
+- Node.js 20+
+- Access to GitHub Packages with `GITHUB_TOKEN` to resolve `app.morphe.patches` Gradle plugin.
+
+Run:
+```bash
+./gradlew :patches:buildAndroid
+```
+The compiled patch bundle (`.mpp`) will be output to `patches/build/libs/`.

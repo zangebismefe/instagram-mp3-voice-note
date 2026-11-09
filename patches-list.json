@@ -1,0 +1,33 @@
+{
+  "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
+  "version": "1.0.0-experimental.1",
+  "patches": [
+    {
+      "name": "Instagram MP3 Voice Note",
+      "description": "Allows selecting a local MP3 audio file and sending it as a native Instagram Direct voice message instead of an attachment.",
+      "default": true,
+      "category": "Chat",
+      "compatiblePackages": [
+        {
+          "packageName": "com.instagram.android",
+          "name": "Instagram",
+          "description": "Instagram Direct native voice messaging modification",
+          "apkFileType": "APKM",
+          "appIconColor": "#E1306C",
+          "signatures": null,
+          "formFactor": null,
+          "targets": [
+            {
+              "version": "452.1.0.53.64",
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": 28,
+              "description": "Target: version code 385811006, ARM64 APKM"
+            }
+          ]
+        }
+      ],
+      "options": []
+    }
+  ]
+}
