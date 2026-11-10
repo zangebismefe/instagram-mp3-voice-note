@@ -24,7 +24,7 @@ The project consists of two cooperating layers according to the official Morphe 
    - Bundles the compiled extension via `extendWith("extensions/extension.mpe")`.
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.1](https://github.com/zangebismefe/instagram-mp3-voice-note/releases/tag/v1.0.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
+> **[v1.0.0-dev.2](https://github.com/zangebismefe/instagram-mp3-voice-note/releases/tag/v1.0.0-dev.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
 <details open>
 <summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>

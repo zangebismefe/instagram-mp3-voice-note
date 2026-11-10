@@ -1,3 +1,9 @@
+## [1.0.0-dev.2](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-11-10)
+
+### ✨ New Features
+
+* add DirectOverlayController and VoiceNoteInitProvider for reliable MP3 trigger in Direct ([6c9dd04](https://github.com/zangebismefe/instagram-mp3-voice-note/commit/6c9dd04eac968fe3fa8fa56321660c94e797d1ad))
+
 ## 1.0.0-dev.1 (2026-11-09)
 
 ### ✨ New Features
