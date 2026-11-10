@@ -21,6 +21,38 @@ public final class VoiceNoteHook {
     private VoiceNoteHook() {}
 
     /**
+     * Initializes the VoiceNoteHook lifecycle listener when an Instagram Activity or Application starts.
+     */
+    public static void init(final Context context) {
+        if (context == null) return;
+        try {
+            Context appCtx = context.getApplicationContext();
+            if (appCtx instanceof android.app.Application) {
+                android.app.Application app = (android.app.Application) appCtx;
+                app.registerActivityLifecycleCallbacks(new android.app.Application.ActivityLifecycleCallbacks() {
+                    @Override
+                    public void onActivityResumed(android.app.Activity activity) {
+                        try {
+                            DirectOverlayController.attachToActivity(activity);
+                        } catch (Throwable t) {
+                            Log.e(TAG, "Error in onActivityResumed", t);
+                        }
+                    }
+                    @Override public void onActivityCreated(android.app.Activity a, android.os.Bundle b) {}
+                    @Override public void onActivityStarted(android.app.Activity a) {}
+                    @Override public void onActivityPaused(android.app.Activity a) {}
+                    @Override public void onActivityStopped(android.app.Activity a) {}
+                    @Override public void onActivitySaveInstanceState(android.app.Activity a, android.os.Bundle b) {}
+                    @Override public void onActivityDestroyed(android.app.Activity a) {}
+                });
+                Log.i(TAG, "Successfully initialized VoiceNoteHook with ActivityLifecycleCallbacks");
+            }
+        } catch (Throwable t) {
+            Log.e(TAG, "Error initializing VoiceNoteHook", t);
+        }
+    }
+
+    /**
      * Hooked into VoiceMessagingComposerController or DirectThreadFragment view binding.
      * Attaches a long-click listener to the microphone button so that long-pressing gives
      * the option to select an MP3 voice note without breaking normal tap-to-hold voice recording.

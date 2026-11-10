@@ -1,12 +1,13 @@
 package dev.zangebismefe.instagramvoice
 
+import app.morphe.patcher.extensions.InstructionExtensions.addInstruction
 import app.morphe.patcher.patch.bytecodePatch
 
 /**
  * Morphe Bytecode Patch for Instagram Direct MP3 native voice notes.
  *
  * Target: Instagram Android 452.1.0.53.64 (version code 385811006, ARM64 APKM).
- * Bundles: extensions/extension.mpe (AudioPickerActivity, AudioConverter, VoiceNoteHook, VoiceNoteState).
+ * Bundles: extensions/extension.mpe (AudioPickerActivity, AudioConverter, VoiceNoteHook, VoiceNoteState, DirectOverlayController).
  */
 @Suppress("unused")
 val instagramVoicePatch = bytecodePatch(
@@ -18,7 +19,21 @@ val instagramVoicePatch = bytecodePatch(
     extendWith("extensions/extension.mpe")
 
     execute {
-        // Morphe merges extensions/extension.mpe into the target Instagram APKM DEX.
-        // Runtime hooks in VoiceNoteHook attach to VoiceMessagingComposerController and OpusVoiceRecorder.
+        val targetTypes = listOf(
+            "Lcom/instagram/mainactivity/InstagramMainActivity;",
+            "Lcom/instagram/android/activity/MainTabActivity;",
+            "Lcom/instagram/direct/fragment/thread/DirectThreadFragment;"
+        )
+
+        for (targetType in targetTypes) {
+            val classDef = classDefByOrNull(targetType) ?: continue
+            val mutableClass = mutableClassDefBy(classDef) ?: continue
+            val targetMethod = mutableClass.methods.firstOrNull {
+                it.name == "onCreate" || it.name == "onResume" || it.name == "onViewCreated"
+            }
+            targetMethod?.apply {
+                addInstruction(0, "invoke-static { p0 }, Ldev/zangebismefe/instagramvoice/VoiceNoteHook;->init(Landroid/content/Context;)V")
+            }
+        }
     }
 }

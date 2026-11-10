@@ -87,11 +87,13 @@ public final class DirectOverlayController {
         if (view == null) return false;
 
         CharSequence desc = view.getContentDescription();
+        if (view instanceof android.widget.EditText) {
+            return true;
+        }
+
         if (desc != null) {
             String d = desc.toString().toLowerCase();
-            if (d.contains("voice message") || d.contains("voice note") ||
-                d.contains("send message") || d.contains("message...") ||
-                d.contains("audio message")) {
+            if (d.contains("voice") || d.contains("message") || d.contains("mic") || d.contains("audio")) {
                 return true;
             }
         }
@@ -109,23 +111,29 @@ public final class DirectOverlayController {
     }
 
     /**
-     * Injects a circular button above the chat composer bar.
+     * Injects a prominent floating action pill button above the chat composer bar.
      */
     private static void injectVoiceActionButton(final Activity activity, final ViewGroup root) {
         try {
-            int dp44 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 44, activity.getResources().getDisplayMetrics());
+            int dpHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 38, activity.getResources().getDisplayMetrics());
+            int dpPadH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, activity.getResources().getDisplayMetrics());
             int dp16 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, activity.getResources().getDisplayMetrics());
-            int dp70 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, activity.getResources().getDisplayMetrics());
+            int dp85 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 85, activity.getResources().getDisplayMetrics());
 
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(dp44, dp44);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    dpHeight
+            );
             params.gravity = Gravity.BOTTOM | Gravity.END;
             params.rightMargin = dp16;
-            params.bottomMargin = dp70; // Positioned right above the microphone button
+            params.bottomMargin = dp85; // Floats clearly above composer
 
             final LinearLayout button = new LinearLayout(activity);
             button.setId(OVERLAY_BUTTON_ID);
             button.setLayoutParams(params);
+            button.setOrientation(LinearLayout.HORIZONTAL);
             button.setGravity(Gravity.CENTER);
+            button.setPadding(dpPadH, 0, dpPadH, 0);
             button.setClickable(true);
             button.setFocusable(true);
 
@@ -134,15 +142,17 @@ public final class DirectOverlayController {
                     GradientDrawable.Orientation.TL_BR,
                     new int[]{Color.parseColor("#E1306C"), Color.parseColor("#833AB4")}
             );
-            background.setShape(GradientDrawable.OVAL);
+            background.setCornerRadius(dpHeight / 2.0f);
             button.setBackground(background);
-            button.setElevation(8.0f);
+            button.setElevation(16.0f);
 
-            TextView icon = new TextView(activity);
-            icon.setText("🎵");
-            icon.setTextSize(18);
-            icon.setGravity(Gravity.CENTER);
-            button.addView(icon);
+            TextView label = new TextView(activity);
+            label.setText("🎵 Send MP3");
+            label.setTextColor(Color.WHITE);
+            label.setTextSize(13);
+            label.setTypeface(null, android.graphics.Typeface.BOLD);
+            label.setGravity(Gravity.CENTER);
+            button.addView(label);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
