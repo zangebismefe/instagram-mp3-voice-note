@@ -24,12 +24,46 @@ The project consists of two cooperating layers according to the official Morphe 
    - Bundles the compiled extension via `extendWith("extensions/extension.mpe")`.
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.3](https://github.com/zangebismefe/instagram-mp3-voice-note/releases/tag/v1.0.0-dev.3)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;1 patches total
+> **[v1.0.0-dev.4](https://github.com/zangebismefe/instagram-mp3-voice-note/releases/tag/v1.0.0-dev.4)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;3 patches total
 <details open>
 <summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **Package name:** `com.instagram.android`
+
+**🎯 Supported versions:**
+
+| 🧪&nbsp;452.1.0.53.64 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Instagram MP3 Voice Note](#instagram-mp3-voice-note) | Allows selecting a local MP3 audio file and sending it as a native Instagram Direct voice message instead of an attachment. |  |
+
+</details>
+
+<details open>
+<summary>📦 Instagram (Piko Clone)&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**Package name:** `com.instagram.android.piko`
+
+**🎯 Supported versions:**
+
+| 🧪&nbsp;452.1.0.53.64 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Instagram MP3 Voice Note](#instagram-mp3-voice-note) | Allows selecting a local MP3 audio file and sending it as a native Instagram Direct voice message instead of an attachment. |  |
+
+</details>
+
+<details open>
+<summary>📦 Instagram (Piko Clone Alt)&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**Package name:** `com.instagram.piko`
 
 **🎯 Supported versions:**
 

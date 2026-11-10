@@ -1,3 +1,9 @@
+## [1.0.0-dev.4](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-11-10)
+
+### ✨ New Features
+
+* add native compatibility for Piko clone package names (com.instagram.android.piko, com.instagram.piko) ([43b4452](https://github.com/zangebismefe/instagram-mp3-voice-note/commit/43b4452767b1d6b82c6c5b6b5fde9891ae57fee2))
+
 ## [1.0.0-dev.3](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-11-10)
 
 ### ✨ New Features
