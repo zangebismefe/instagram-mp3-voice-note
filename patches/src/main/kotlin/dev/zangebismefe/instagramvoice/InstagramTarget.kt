@@ -5,13 +5,38 @@ import app.morphe.patcher.patch.AppTarget
 import app.morphe.patcher.patch.Compatibility
 
 /**
- * Target metadata only. This does NOT claim a working patch exists.
- * Version 452.1.0.53.64 was supplied as an APKM for research.
+ * Target compatibility metadata supporting official Instagram and Piko clones.
  */
-internal val instagramTarget = Compatibility(
+internal val instagramOfficialTarget = Compatibility(
     name = "Instagram",
     packageName = "com.instagram.android",
     apkFileType = ApkFileType.APKM,
+    appIconColor = 0xE1306C,
+    targets = listOf(
+        AppTarget(
+            version = "452.1.0.53.64",
+            isExperimental = true
+        )
+    )
+)
+
+internal val instagramPikoCloneTarget = Compatibility(
+    name = "Instagram (Piko Clone)",
+    packageName = "com.instagram.android.piko",
+    apkFileType = ApkFileType.APK,
+    appIconColor = 0xE1306C,
+    targets = listOf(
+        AppTarget(
+            version = "452.1.0.53.64",
+            isExperimental = true
+        )
+    )
+)
+
+internal val instagramPikoAltTarget = Compatibility(
+    name = "Instagram (Piko Clone Alt)",
+    packageName = "com.instagram.piko",
+    apkFileType = ApkFileType.APK,
     appIconColor = 0xE1306C,
     targets = listOf(
         AppTarget(

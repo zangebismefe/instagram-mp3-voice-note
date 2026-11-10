@@ -15,7 +15,7 @@ val instagramVoicePatch = bytecodePatch(
     description = "Allows selecting a local MP3 audio file and sending it as a native Instagram Direct voice message instead of an attachment.",
     default = true
 ) {
-    compatibleWith(instagramTarget)
+    compatibleWith(instagramOfficialTarget, instagramPikoCloneTarget, instagramPikoAltTarget)
     extendWith("extensions/extension.mpe")
 
     execute {

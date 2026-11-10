@@ -25,6 +25,42 @@
               "description": null
             }
           ]
+        },
+        {
+          "packageName": "com.instagram.android.piko",
+          "name": "Instagram (Piko Clone)",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#E1306C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": "452.1.0.53.64",
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        },
+        {
+          "packageName": "com.instagram.piko",
+          "name": "Instagram (Piko Clone Alt)",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#E1306C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": "452.1.0.53.64",
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            }
+          ]
         }
       ],
       "options": []
