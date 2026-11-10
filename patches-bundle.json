@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-10T11:23:54",
-  "description": "## [1.0.0-dev.2](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-11-10)\n\n### ✨ New Features\n\n* add DirectOverlayController and VoiceNoteInitProvider for reliable MP3 trigger in Direct ([6c9dd04](https://github.com/zangebismefe/instagram-mp3-voice-note/commit/6c9dd04eac968fe3fa8fa56321660c94e797d1ad))",
-  "download_url": "https://github.com/zangebismefe/instagram-mp3-voice-note/releases/download/v1.0.0-dev.2/patches-1.0.0-dev.2.mpp",
+  "created_at": "2026-11-10T11:46:28",
+  "description": "## [1.0.0-dev.3](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-11-10)\n\n### ✨ New Features\n\n* inject VoiceNoteHook.init into Instagram activities and enhance DirectOverlayController ([4d9b90f](https://github.com/zangebismefe/instagram-mp3-voice-note/commit/4d9b90fb1f7c0803abd26d5ecfcb92328b585c38))",
+  "download_url": "https://github.com/zangebismefe/instagram-mp3-voice-note/releases/download/v1.0.0-dev.3/patches-1.0.0-dev.3.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.2"
+  "version": "1.0.0-dev.3"
 }

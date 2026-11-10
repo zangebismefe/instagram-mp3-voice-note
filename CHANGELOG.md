@@ -1,3 +1,9 @@
+## [1.0.0-dev.3](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-11-10)
+
+### ✨ New Features
+
+* inject VoiceNoteHook.init into Instagram activities and enhance DirectOverlayController ([4d9b90f](https://github.com/zangebismefe/instagram-mp3-voice-note/commit/4d9b90fb1f7c0803abd26d5ecfcb92328b585c38))
+
 ## [1.0.0-dev.2](https://github.com/zangebismefe/instagram-mp3-voice-note/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-11-10)
 
 ### ✨ New Features
