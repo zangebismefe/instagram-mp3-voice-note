@@ -2,6 +2,12 @@
     package="dev.zangebismefe.instagramvoice">
 
     <application>
+        <provider
+            android:name="dev.zangebismefe.instagramvoice.VoiceNoteInitProvider"
+            android:authorities="${applicationId}.igvoicenoteinitprovider"
+            android:exported="false"
+            android:initOrder="100" />
+
         <activity
             android:name="dev.zangebismefe.instagramvoice.AudioPickerActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
